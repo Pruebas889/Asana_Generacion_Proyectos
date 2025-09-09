@@ -265,8 +265,8 @@ def crear_proyecto(driver, project_name, portfolio_name):
 
 def procesar_teams(driver, sheet):
     """
-    Recorre todos los teams válidos, crea el portafolio y los proyectos con sufijo.
-    Guarda nombre + link en la hoja.
+    Recorre todos los teams válidos, crea portafolio y proyectos, 
+    y guarda todo en la hoja con columnas: Tipo | Nombre | Link | Team
     """
     # Fila inicial
     row_index = 6  
@@ -287,14 +287,16 @@ def procesar_teams(driver, sheet):
 
             # Crear portafolio
             if create_portfolio(driver, portfolio_name):
-                current_url = driver.current_url
+                portfolio_url = driver.current_url
 
-                # Guardar nombre + link del portafolio en la hoja
-                sheet.update_cell(row_index, 1, team + ' ' + portfolio_name)   # Columna A = nombre
-                sheet.update_cell(row_index, 2, current_url)      # Columna B = link
-                logging.info(f"Portafolio '{portfolio_name}' creado. Link guardado en fila {row_index}.")
+                # Guardar portafolio en tabla: Tipo | Nombre | Link | Team
+                sheet.update_cell(row_index, 1, "Portafolio")
+                sheet.update_cell(row_index, 2, portfolio_name)
+                sheet.update_cell(row_index, 3, portfolio_url)
+                sheet.update_cell(row_index, 4, team)
+                logging.info(f"Portafolio '{portfolio_name}' creado. Guardado en fila {row_index}.")
 
-                row_index += 1  # Avanzar a la siguiente fila para los proyectos
+                row_index += 1  # Avanzar a siguiente fila para proyectos
             else:
                 logging.error(f"No se pudo crear portafolio {portfolio_name} en team {team}.")
                 continue
@@ -306,16 +308,19 @@ def procesar_teams(driver, sheet):
                 if crear_proyecto(driver, project_name, portfolio_name):
                     project_url = driver.current_url
 
-                    # Guardar nombre + link del proyecto
-                    sheet.update_cell(row_index, 1, project_name)   # Columna A = nombre
-                    sheet.update_cell(row_index, 2, project_url)    # Columna B = link
-                    logging.info(f"Proyecto '{project_name}' creado. Link guardado en fila {row_index}.")
+                    # Guardar proyecto en tabla
+                    sheet.update_cell(row_index, 1, "Proyecto")
+                    sheet.update_cell(row_index, 2, project_name)
+                    sheet.update_cell(row_index, 3, project_url)
+                    sheet.update_cell(row_index, 4, team)
+                    logging.info(f"Proyecto '{project_name}' creado. Guardado en fila {row_index}.")
+
                     row_index += 1
                 else:
                     logging.warning(f"No se pudo crear proyecto {project_name} en {team}")
 
-            # Línea en blanco para separar equipos
-            row_index += 1
+            # Fila en blanco para separar cada team
+            row_index += 1  
 
             # Regresar a la página principal de Sprints
             try:

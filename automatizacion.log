@@ -193,3 +193,68 @@
 2025-09-09 15:06:45,870 - INFO - Procesamiento completado para todos los teams.
 2025-09-09 15:06:45,871 - INFO - Automatización completada exitosamente para todos los equipos y proyectos.
 2025-09-09 15:06:48,752 - INFO - Driver cerrado.
+2025-09-09 15:25:55,067 - INFO - ====== WebDriver manager ======
+2025-09-09 15:25:57,369 - INFO - Get LATEST chromedriver version for google-chrome
+2025-09-09 15:25:59,614 - INFO - Get LATEST chromedriver version for google-chrome
+2025-09-09 15:26:00,125 - INFO - Driver [C:\Users\svega\.wdm\drivers\chromedriver\win64\139.0.7258.154\chromedriver-win32/chromedriver.exe] found in cache
+2025-09-09 15:26:02,775 - INFO - Driver de Chrome iniciado exitosamente.
+2025-09-09 15:26:04,159 - INFO - Conexión exitosa a Google Sheets.
+2025-09-09 15:26:11,105 - INFO - Navegando a la página de Asana.
+2025-09-09 15:26:13,898 - INFO - Correo ingresado.
+2025-09-09 15:26:14,093 - INFO - Botón 'Continue' clickeado.
+2025-09-09 15:26:18,713 - INFO - Contraseña ingresada.
+2025-09-09 15:26:18,804 - INFO - Botón 'Log in' clickeado.
+2025-09-09 15:26:24,805 - INFO - Login completado.
+2025-09-09 15:26:25,065 - INFO - Portafolio leído: Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024
+2025-09-09 15:26:25,065 - INFO - Proyectos leídos: ['Proyecto 199 -', 'Soporte 199 -']
+2025-09-09 15:26:25,066 - INFO - Procesando equipo: Team prueba
+2025-09-09 15:26:32,057 - INFO - Equipo 'Team prueba' seleccionado.
+2025-09-09 15:26:35,196 - INFO - Menú 'More actions' abierto.
+2025-09-09 15:26:35,477 - INFO - Opción 'Crear un portafolio nuevo' seleccionada.
+2025-09-09 15:26:39,155 - INFO - Nombre del portafolio ingresado: Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024
+2025-09-09 15:26:39,719 - INFO - Botón 'Continuar' para portafolio clickeado.
+2025-09-09 15:26:40,420 - INFO - Portafolio 'Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024' creado y accedido exitosamente.
+2025-09-09 15:26:44,912 - INFO - Portafolio 'Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024' creado. Guardado en fila 6.
+2025-09-09 15:26:44,992 - INFO - Menú 'More actions' abierto para proyecto.
+2025-09-09 15:26:45,190 - INFO - Opción 'Crear un proyecto nuevo' seleccionada.
+2025-09-09 15:26:48,192 - INFO - Tipo 'Proyecto en blanco' seleccionado.
+2025-09-09 15:26:48,705 - INFO - Nombre del proyecto ingresado: Proyecto 199 - Prueba
+2025-09-09 15:26:48,966 - INFO - Botón 'Continuar' para proyecto clickeado.
+2025-09-09 15:26:49,333 - INFO - Proyecto 'Proyecto 199 - Prueba' creado exitosamente.
+2025-09-09 15:26:54,530 - INFO - Regresando al portafolio 'Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024'.
+2025-09-09 15:26:58,697 - INFO - Proyecto 'Proyecto 199 - Prueba' creado. Guardado en fila 7.
+2025-09-09 15:26:58,766 - INFO - Menú 'More actions' abierto para proyecto.
+2025-09-09 15:26:58,989 - INFO - Opción 'Crear un proyecto nuevo' seleccionada.
+2025-09-09 15:26:59,889 - INFO - Tipo 'Proyecto en blanco' seleccionado.
+2025-09-09 15:27:00,585 - INFO - Nombre del proyecto ingresado: Soporte 199 - Prueba
+2025-09-09 15:27:00,678 - INFO - Botón 'Continuar' para proyecto clickeado.
+2025-09-09 15:27:01,100 - INFO - Proyecto 'Soporte 199 - Prueba' creado exitosamente.
+2025-09-09 15:27:06,315 - INFO - Regresando al portafolio 'Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024'.
+2025-09-09 15:27:10,414 - INFO - Proyecto 'Soporte 199 - Prueba' creado. Guardado en fila 8.
+2025-09-09 15:27:12,595 - INFO - Procesando equipo: Team QA
+2025-09-09 15:27:12,751 - INFO - Equipo 'Team QA' seleccionado.
+2025-09-09 15:27:15,820 - INFO - Menú 'More actions' abierto.
+2025-09-09 15:27:16,058 - INFO - Opción 'Crear un portafolio nuevo' seleccionada.
+2025-09-09 15:27:19,524 - INFO - Nombre del portafolio ingresado: Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024
+2025-09-09 15:27:20,095 - INFO - Botón 'Continuar' para portafolio clickeado.
+2025-09-09 15:27:20,764 - INFO - Portafolio 'Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024' creado y accedido exitosamente.
+2025-09-09 15:27:24,804 - INFO - Portafolio 'Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024' creado. Guardado en fila 10.
+2025-09-09 15:27:24,876 - INFO - Menú 'More actions' abierto para proyecto.
+2025-09-09 15:27:25,096 - INFO - Opción 'Crear un proyecto nuevo' seleccionada.
+2025-09-09 15:27:25,823 - INFO - Tipo 'Proyecto en blanco' seleccionado.
+2025-09-09 15:27:26,278 - INFO - Nombre del proyecto ingresado: Proyecto 199 - QA
+2025-09-09 15:27:26,372 - INFO - Botón 'Continuar' para proyecto clickeado.
+2025-09-09 15:27:26,617 - INFO - Proyecto 'Proyecto 199 - QA' creado exitosamente.
+2025-09-09 15:27:31,864 - INFO - Regresando al portafolio 'Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024'.
+2025-09-09 15:27:36,044 - INFO - Proyecto 'Proyecto 199 - QA' creado. Guardado en fila 11.
+2025-09-09 15:27:36,139 - INFO - Menú 'More actions' abierto para proyecto.
+2025-09-09 15:27:36,369 - INFO - Opción 'Crear un proyecto nuevo' seleccionada.
+2025-09-09 15:27:37,099 - INFO - Tipo 'Proyecto en blanco' seleccionado.
+2025-09-09 15:27:37,547 - INFO - Nombre del proyecto ingresado: Soporte 199 - QA
+2025-09-09 15:27:37,624 - INFO - Botón 'Continuar' para proyecto clickeado.
+2025-09-09 15:27:37,898 - INFO - Proyecto 'Soporte 199 - QA' creado exitosamente.
+2025-09-09 15:27:43,076 - INFO - Regresando al portafolio 'Sprint 199 - 25 Noviembre 2024 al 06 Diciembre 2024'.
+2025-09-09 15:27:47,176 - INFO - Proyecto 'Soporte 199 - QA' creado. Guardado en fila 12.
+2025-09-09 15:27:49,413 - INFO - Procesamiento completado para todos los teams.
+2025-09-09 15:27:49,414 - INFO - Automatización completada exitosamente para todos los equipos y proyectos.
+2025-09-09 15:27:52,128 - INFO - Driver cerrado.
