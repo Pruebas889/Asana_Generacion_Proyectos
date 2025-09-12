@@ -1,16 +1,18 @@
 import logging
 import os
 import time
+from selenium.webdriver import ActionChains
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.common.exceptions import WebDriverException, TimeoutException, NoSuchElementException
+from selenium.common.exceptions import WebDriverException, TimeoutException, NoSuchElementException, StaleElementReferenceException
 from webdriver_manager.chrome import ChromeDriverManager
 from typing import Optional, List, Tuple
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import gspread
 from google.oauth2.service_account import Credentials
+from selenium.webdriver.common.keys import Keys
 
 # --- Configuración de logging ---
 logging.basicConfig(
@@ -21,6 +23,18 @@ logging.basicConfig(
         logging.FileHandler("automatizacion.log", encoding='utf-8')
     ]
 )
+TEAM_CORREOS = {
+    "Team prueba": [
+        "santiago.vega.cop@gmail.com",
+        "david.forero.cop@gmail.com",
+        "santiago.vega.cop@gmail.com",
+    ],
+    "Team QA": [
+        "david.forero.cop@gmail.com",
+        "santiago.vega.cop@gmail.com"
+    ]
+    # Si necesitas más teams, los agregas aquí...
+}
 
 # Lista de equipos válidos
 VALID_TEAMS = [
@@ -32,7 +46,7 @@ VALID_TEAMS = [
     # "Team SIICOP"
 ]
 
-TEAM_SUFFIXES = {
+TEAM_SUFIJOS = {
     "Team prueba": "Prueba",
     # "Team SIICOP v.2": "SIICOP V2",
     "Team QA": "QA",
@@ -134,7 +148,6 @@ def login_asana(driver):
     try:
         driver.get("https://app.asana.com/0/portfolio/1205257480867940/1207672212054810")
         logging.info("Navegando a la página de Asana.")
-        time.sleep(2)
         
         input_correo = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//input[@type='email' and @name='e']")))
@@ -146,9 +159,7 @@ def login_asana(driver):
             EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and contains(@class,'LoginEmailForm-continueButton') and normalize-space(text())='Continue']")))
         driver.execute_script("arguments[0].click();", continuar)
         logging.info("Botón 'Continue' clickeado.")
-        
-        time.sleep(4)
-        
+                
         input_contrasena = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//input[@type='password' and @name='p']")))
         input_contrasena.click()
@@ -160,7 +171,6 @@ def login_asana(driver):
         driver.execute_script("arguments[0].click();", iniciar_sesion)
         logging.info("Botón 'Log in' clickeado.")
         
-        time.sleep(6)
         logging.info("Login completado.")
         return True
     except Exception as e:
@@ -174,7 +184,6 @@ def navigate_to_team(driver, team_name):
             EC.element_to_be_clickable((By.XPATH, f"//div[contains(@class,'SpreadsheetPortfolioGridNameAndDetailsCellGroup-title')]//a[.//span[normalize-space()='{team_name}']]")))
         driver.execute_script("arguments[0].click();", team_xpath)
         logging.info(f"Equipo '{team_name}' seleccionado.")
-        time.sleep(3)
         return True
     except Exception as e:
         logging.error(f"Error al navegar al equipo '{team_name}': {e}")
@@ -208,15 +217,70 @@ def create_portfolio(driver, portfolio_name):
         logging.info("Botón 'Continuar' para portafolio clickeado.")
         
         time.sleep(0.5)
+        # Seleccionar opción "Comparte con compañeros de equipo"
+        opcion_compartir = WebDriverWait(driver, 30).until(
+            EC.element_to_be_clickable((By.XPATH, "//div[@class='CreatePortfolioModalNextStepForm-rowItem']//label[contains(., 'Comparte con compañeros de equipo')]"))
+        )
+        driver.execute_script("arguments[0].click();", opcion_compartir)
+        logging.info("Opción 'Comparte con compañeros de equipo' seleccionada.")
+
+        time.sleep(0.5)
         ve_al_portafolio = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and contains(normalize-space(.),'Ve al portafolio')]")))
         driver.execute_script("arguments[0].click();", ve_al_portafolio)
         logging.info(f"Portafolio '{portfolio_name}' creado y accedido exitosamente.")
-        time.sleep(3)
+        time.sleep(3)        
         return True
     except Exception as e:
         logging.error(f"Error al crear portafolio: {e}")
         return False
+
+def agregar_invitados_team(driver, correos: List[str]):
+    """
+    Agrega invitados al portafolio ingresando correos y presionando Enter por cada uno.
+    """
+    try:
+        for correo in correos:
+            try:
+                time.sleep(1)  # pequeña pausa para evitar problemas de carga
+                WebDriverWait(driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH, "//input[contains(@class,'TokenizerInput-input')]"))
+                )                # Reintento en caso de que el campo se refresque
+                input_emails = WebDriverWait(driver, 20).until(
+                    EC.presence_of_element_located((By.XPATH, "//input[contains(@class,'TokenizerInput-input')]"))
+                )
+                driver.execute_script("arguments[0].scrollIntoView(true);", input_emails)
+                input_emails.click()
+                driver.execute_script("arguments[0].click();", input_emails)
+                time.sleep(2)  # pequeña pausa para dar tiempo a la UI
+                input_emails.send_keys(correo)
+                input_emails.send_keys(Keys.ARROW_DOWN)
+                time.sleep(0.3)
+                input_emails.send_keys(Keys.ENTER)
+                logging.info(f"Correo '{correo}' ingresado y confirmado.")
+
+                time.sleep(0.5)
+
+            except StaleElementReferenceException:
+                logging.warning(f"Elemento para correo '{correo}' se refrescó. Reintentando...")
+                time.sleep(1)
+                continue  # vuelve a intentar en la siguiente iteración
+
+        time.sleep(10)
+        # Hacer clic en botón 'Invitar' al final
+        boton_invitar = WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "//div[contains(@class,'ButtonPrimaryPresentation') and normalize-space()='Invitar']"))
+        )
+        driver.execute_script("arguments[0].click();", boton_invitar)
+        logging.info("Botón 'Invitar' clickeado. Invitaciones enviadas.")
+
+        time.sleep(2)
+        return True
+
+    except Exception as e:
+        logging.error(f"Error al agregar invitados: {e}")
+        return False
+
 
 def crear_proyecto(driver, project_name, portfolio_name):
     try:
@@ -287,6 +351,11 @@ def procesar_teams(driver, sheet):
 
             # Crear portafolio
             if create_portfolio(driver, portfolio_name):
+                correos_team = TEAM_CORREOS.get(team, [])
+                if correos_team:
+                    agregar_invitados_team(driver, correos_team)
+                else:
+                    logging.warning(f"No hay correos configurados para el team {team}.")
                 portfolio_url = driver.current_url
 
                 # Guardar portafolio en tabla: Tipo | Nombre | Link | Team
@@ -302,7 +371,7 @@ def procesar_teams(driver, sheet):
                 continue
 
             # Crear proyectos con sufijo del team
-            suffix = TEAM_SUFFIXES.get(team, team)
+            suffix = TEAM_SUFIJOS.get(team, team)
             for project in projects:
                 project_name = f"{project} {suffix}"
                 if crear_proyecto(driver, project_name, portfolio_name):
